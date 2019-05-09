@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import io from "socket.io-client";
+
 // var socket = io();
 
 export default {
@@ -32,17 +34,21 @@ export default {
   data() {
     return {
       textToTranslate: "",
-      translation: ""
+      translation: "",
+      socket: io("localhost:8000")
     };
   },
   methods: {
     translateMe() {
-      socket.emit("textToTranslate", this.textToTranslate);
+      this.socket.emit("textToTranslate", this.textToTranslate);
       this.textToTranslate = "";
     }
   },
+  created() {
+    // socket = io();
+  },
   mounted() {
-    socket.on("translated", data => (this.translation = data));
+    this.socket.on("translated", data => (this.translation = data));
   }
 };
 </script>

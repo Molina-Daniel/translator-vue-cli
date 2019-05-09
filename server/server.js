@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Start the server - listen when the server starts and console the port where started
 const server = app.listen(app.get('port'), () => {
-  // console.log('server on port', app.get('port'));
+  console.log('server on port', app.get('port'));
 });
 
 
