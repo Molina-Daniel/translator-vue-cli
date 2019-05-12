@@ -25,30 +25,40 @@
 </template>
 
 <script>
-import io from "socket.io-client";
-
-// var socket = io();
+// import io from "socket.io-client";
+import translate, { setCORS } from "google-translate-api-browser";
+setCORS("http://cors-anywhere.herokuapp.com/");
+// import { setCORS } from "google-translate-api-browser";
+// setting up cors-anywhere server address
+// const translate = setCORS("http://cors-anywhere.herokuapp.com/");
 
 export default {
   name: "Translator",
   data() {
     return {
       textToTranslate: "",
-      translation: "",
-      socket: io("localhost:8000")
+      translation: ""
+      // socket: io("localhost:8000")
     };
   },
   methods: {
-    translateMe() {
-      this.socket.emit("textToTranslate", this.textToTranslate);
-      this.textToTranslate = "";
+    translateMe(data) {
+      data = this.textToTranslate;
+      translate(data, { to: "es" })
+        .then(res => {
+          // I do not eat six days
+          console.log(res.text);
+          this.translation = res.text;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      // this.socket.emit("textToTranslate", this.textToTranslate);
+      // this.textToTranslate = "";
     }
   },
-  created() {
-    // socket = io();
-  },
   mounted() {
-    this.socket.on("translated", data => (this.translation = data));
+    // this.socket.on("translated", data => (this.translation = data));
   }
 };
 </script>

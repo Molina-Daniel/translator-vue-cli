@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
   socket.on('textToTranslate', (data) => {
     console.log(data);
     var { translate } = require("google-translate-api-browser");
-    translate(data, { to: "es" })
+    translate(data, { to: "en" })
       .then(res => {
         console.log(res.text);
         io.sockets.emit('translated', res.text)
